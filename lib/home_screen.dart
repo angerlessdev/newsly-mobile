@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsly/search_news_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,6 +9,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [SearchNewsPage(), const Icon(Icons.favorite)];
+
+  void _onTapPressed(index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,12 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Newsly"),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'Favorites'),
-        ],
-      ),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: 'Favorites'),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            // or _onTapPressed,
+            _onTapPressed(index);
+          }),
+      body: _pages[_selectedIndex],
     );
   }
 }
