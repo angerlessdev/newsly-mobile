@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [SearchNewsPage(), const Icon(Icons.favorite)];
+  final List<Widget> _pages = const [SearchNewsPage(), Icon(Icons.favorite)];
 
   void _onTapPressed(index) {
     setState(() {
