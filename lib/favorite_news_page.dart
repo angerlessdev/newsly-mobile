@@ -12,11 +12,13 @@ class FavoriteNewsPage extends StatefulWidget {
 class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
   final TextEditingController _controller = TextEditingController();
   List<News> _news = [];
+  List<News> _filteredNews = [];
 
   void loadData() async {
     List maps = await loadJsonFromAssets('assets/articles.json');
     setState(() {
       _news = maps.map((map) => News.fromJson(map)).toList();
+      _filteredNews = _news;
     });
   }
 
@@ -26,16 +28,24 @@ class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
     loadData();
   }
 
+  void _filterNews(String value) {
+    setState(() {
+      _filteredNews = _news.where(
+        (element) {
+          return element.title.contains(value);
+        },
+      ).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    //double width = MediaQuery.sizeOf(context).width;
-
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            onSubmitted: (value) {},
+            onChanged: _filterNews,
             controller: _controller,
             decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
@@ -45,7 +55,7 @@ class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: _news.length,
+            itemCount: _filteredNews.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(4.0),
@@ -54,7 +64,7 @@ class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.network(
-                        _news[index].urlToImage,
+                        _filteredNews[index].urlToImage,
                         width: double.infinity,
                         height: 150,
                         fit: BoxFit.cover,
@@ -71,9 +81,11 @@ class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                setState(() {
-                                  _news.removeAt(index);
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    _news.remove(_filteredNews[index]);
+                                  });
+                                }
                               },
                               icon: const Icon(Icons.remove_circle_outline)),
                         ],
@@ -81,14 +93,14 @@ class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(
-                          _news[index].title,
+                          _filteredNews[index].title,
                           maxLines: 1,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text(_news[index].author),
+                        child: Text(_filteredNews[index].author),
                       )
                     ],
                   ),
