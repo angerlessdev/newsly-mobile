@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsly/favorite_news_page.dart';
 import 'package:newsly/search_news_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [SearchNewsPage(), Icon(Icons.favorite)];
+  final List<Widget> _pages = const [SearchNewsPage(), FavoriteNewsPage()];
 
   void _onTapPressed(index) {
     setState(() {
