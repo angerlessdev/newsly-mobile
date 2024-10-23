@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:newsly/news.dart';
 import 'package:newsly/news_detail_screen.dart';
-import 'package:newsly/utils.dart';
+import 'package:newsly/news_service.dart';
+//import 'package:newsly/utils.dart';
 
 class SearchNewsPage extends StatefulWidget {
   const SearchNewsPage({super.key});
@@ -15,9 +16,11 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
   List<News> _news = [];
 
   void loadData() async {
-    List maps = await loadJsonFromAssets('assets/articles.json');
+    List<News> news = await NewsService().searchNews(_controller.text);
+    // List maps = await loadJsonFromAssets('assets/articles.json');
     setState(() {
-      _news = maps.map((map) => News.fromJson(map)).toList();
+      // _news = maps.map((map) => News.fromJson(map)).toList();
+      _news = news;
     });
   }
 
@@ -29,8 +32,6 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    //double width = MediaQuery.sizeOf(context).width;
-
     return Column(
       children: [
         Padding(
