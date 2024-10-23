@@ -15,4 +15,14 @@ class News {
       required this.content,
       required this.url,
       required this.urlToImage});
+
+  News.fromJson(Map<String, dynamic> json)
+      : this(
+            author: json['author'] ?? '',
+            title: json['title'] ?? '',
+            description: json['description'] ?? '',
+            publishedAt: json['publishedAt'] ?? '',
+            content: json['content'] ?? '',
+            url: json['url'] ?? '',
+            urlToImage: json['urlToImage'] ?? '');
 }
