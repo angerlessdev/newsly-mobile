@@ -68,18 +68,21 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            _news[index].urlToImage,
-                            width: double.infinity,
-                            height: 150,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const SizedBox(
-                                  width: double.infinity,
-                                  height: 150,
-                                  child: Center(
-                                      child: Text('Image failed to load')));
-                            },
+                          child: Hero(
+                            tag: _news[index].title,
+                            child: Image.network(
+                              _news[index].urlToImage,
+                              width: double.infinity,
+                              height: 150,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const SizedBox(
+                                    width: double.infinity,
+                                    height: 150,
+                                    child: Center(
+                                        child: Text('Image failed to load')));
+                              },
+                            ),
                           ),
                         ),
                         Padding(
