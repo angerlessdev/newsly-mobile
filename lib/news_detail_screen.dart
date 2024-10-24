@@ -15,50 +15,73 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(
-              widget.news.urlToImage,
-              height: height * 0.4,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.news.title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(widget.news.author),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(widget.news.content),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                  floating: false,
+                  pinned: true,
+                  expandedHeight: height * 0.35,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Hero(
+                      tag: widget.news.title,
+                      child: Image.network(
+                        widget.news.urlToImage,
+                        height: height * 0.4,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, StackTrace) {
+                          return SizedBox(
+                              width: double.infinity,
+                              height: height * 0.35,
+                              child: const Center(
+                                  child: Text('Image failed to load')));
+                        },
+                      ),
+                    ),
+                  ))
+            ];
+          },
+          body: SingleChildScrollView(
+            child: Column(
               children: [
-                IconButton.outlined(
-                    onPressed: () {}, icon: const Icon(Icons.web)),
-                IconButton.outlined(
-                    onPressed: () {
-                      setState(() {
-                        _isFavorite = !_isFavorite;
-                      });
-                    },
-                    icon: const Icon(Icons.favorite),
-                    color: _isFavorite
-                        ? ThemeData().primaryColor
-                        : ThemeData().hintColor)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    widget.news.title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.news.author),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.news.content),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton.outlined(
+                        onPressed: () {}, icon: const Icon(Icons.web)),
+                    IconButton.outlined(
+                        onPressed: () {
+                          setState(() {
+                            _isFavorite = !_isFavorite;
+                          });
+                        },
+                        icon: const Icon(Icons.favorite),
+                        color: _isFavorite
+                            ? ThemeData().primaryColor
+                            : ThemeData().hintColor)
+                  ],
+                )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );
