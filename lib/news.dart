@@ -24,5 +24,6 @@ class News {
             publishedAt: json['publishedAt'] ?? '',
             content: json['content'] ?? '',
             url: json['url'] ?? '',
-            urlToImage: json['urlToImage'] ?? '');
+            urlToImage: json['urlToImage'] ??
+                'https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png');
 }
