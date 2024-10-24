@@ -23,9 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Newsly"),
-      ),
       bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
@@ -37,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // or _onTapPressed,
             _onTapPressed(index);
           }),
-      body: _pages[_selectedIndex],
+      body: SafeArea(child: _pages[_selectedIndex]),
     );
   }
 }
