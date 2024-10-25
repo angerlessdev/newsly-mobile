@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsly/presentation/bloc/news_bloc.dart';
+import 'package:newsly/presentation/home/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +12,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return BlocProvider(
+      create: (context) => NewsBloc(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     );
   }
 }
